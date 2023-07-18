@@ -4,22 +4,20 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MaterialModule} from "./material-module";
 import {HttpClientModule} from "@angular/common/http";
-import { InputFormComponent } from './components/input-form/input-form.component';
-import { InputForm2Component } from './components/input-form2/input-form2.component';
-import { AppNameEditorComponent } from './services/components/app-name-editor/app-name-editor.component';
-import { NameEditorComponent } from './components/name-editor/name-editor.component';
+import {MatCheckboxModule} from "@angular/material/checkbox";
+import {MatSlideToggleModule} from "@angular/material/slide-toggle";
+import {MatFormFieldModule} from "@angular/material/form-field";
+import {MatInputModule} from "@angular/material/input";
+import { InputFormComponent } from './components/test-input-form/input-form.component';
+import {ErrorStateMatcher, ShowOnDirtyErrorStateMatcher} from "@angular/material/core";
 
 @NgModule({
   declarations: [
     AppComponent,
-    InputFormComponent,
-    InputForm2Component,
-    AppNameEditorComponent,
-    NameEditorComponent
-  ],
+      ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -27,9 +25,16 @@ import { NameEditorComponent } from './components/name-editor/name-editor.compon
     ReactiveFormsModule,
     MaterialModule,
     HttpClientModule,
-    // FormsModule
+    FormsModule,
+    MatCheckboxModule,
+    MatSlideToggleModule,
+    MatFormFieldModule,
+    MatInputModule,
+    InputFormComponent,
   ],
-  providers: [],
+  providers: [
+    {provide: ErrorStateMatcher, useClass: ShowOnDirtyErrorStateMatcher}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

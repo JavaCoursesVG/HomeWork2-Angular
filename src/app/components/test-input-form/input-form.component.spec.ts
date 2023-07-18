@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InputFormComponent } from './input-form.component';
 
-describe('InputFormComponent', () => {
+describe('TestInputFormComponent', () => {
   let component: InputFormComponent;
   let fixture: ComponentFixture<InputFormComponent>;
 

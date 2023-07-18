@@ -1,0 +1,12 @@
+.app-page{
+  display: block;
+  margin: 30px auto;
+  width: 80%;
+}
+
+.mat-h1 {
+  text-align: start;
+  display: block;
+  margin: 30px auto;
+  width: 100%;
+}
