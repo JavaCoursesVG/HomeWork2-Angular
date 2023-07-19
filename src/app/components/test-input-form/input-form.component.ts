@@ -14,6 +14,8 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
+import {PersonService} from "../../services/services/person.service";
+import {Person} from "../../Models/Person";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -31,11 +33,29 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, MatIconModule, MatButtonModule, MatCheckboxModule],
 })
 export class InputFormComponent {
+  id = 1;
   firstname = '';
   lastname = '';
   dateOfBirth = '';
+  checked = false;
+
+  person: Person = {} as Person;
+  // persons: Person [] = {} as Person [];
+
+  constructor(
+    private personService: PersonService,
+  ) {
+  }
 
   emailFormControl = new FormControl('', [ Validators.email]);
 
   matcher = new MyErrorStateMatcher();
+
+  findButtonClick(): void {
+
+    this.personService.getPersonById(this.id).subscribe((response:Person) => {
+      this.person = response
+      console.log(this.person)
+    });
+  }
 }

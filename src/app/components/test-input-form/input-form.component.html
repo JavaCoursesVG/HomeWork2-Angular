@@ -1,8 +1,14 @@
 <form class="find-form">
   <h2 class="mat-h1">Find Person by</h2>
-  <mat-form-field class="input-form-field" appearance="outline">
+
+  <mat-form-field class="input-form-field" appearance="outline" >
+    <mat-label>id</mat-label>
+    <input matInput type="number" [(ngModel)]="id" name="id" [disabled]="checked">
+  </mat-form-field>
+
+  <mat-form-field class="input-form-field" appearance="outline" >
     <mat-label>Firstname</mat-label>
-    <input matInput type="text" [(ngModel)]="firstname" name="first">
+    <input matInput type="text" [(ngModel)]="firstname" name="firstname" [disabled]="checked">
     <button *ngIf="firstname" matSuffix mat-icon-button aria-label="Clear" (click)="firstname=''">
       <mat-icon>close</mat-icon>
     </button>
@@ -10,7 +16,7 @@
 
   <mat-form-field class="input-form-field" appearance="outline">
     <mat-label>Lastname</mat-label>
-    <input matInput type="text" [(ngModel)]="lastname" name="first">
+    <input matInput type="text" [(ngModel)]="lastname" name="lastname" [disabled]="checked">
     <button *ngIf="lastname" matSuffix mat-icon-button aria-label="Clear" (click)="lastname=''">
       <mat-icon>close</mat-icon>
     </button>
@@ -18,23 +24,23 @@
 
   <mat-form-field class="input-form-field" appearance="outline">
     <mat-label>Date of birth</mat-label>
-    <input matInput type="text" [(ngModel)]="dateOfBirth" name="first">
+    <input matInput type="text" [(ngModel)]="dateOfBirth" name="dateOfBirth" [disabled]="checked" >
     <button *ngIf="dateOfBirth" matSuffix mat-icon-button aria-label="Clear" (click)="dateOfBirth=''">
       <mat-icon>close</mat-icon>
     </button>
   </mat-form-field>
 
   <section class="mat-checkbox-section">
-    <mat-checkbox class="mat-h1" label="Show" labelPosition="before">Show all saved persons</mat-checkbox>
+    <mat-checkbox class="mat-h1" labelPosition="before" (change)="checked=!checked">Show all saved persons</mat-checkbox>
   </section>
 
   <section class="find-button">
-    <button mat-stroked-button>Find</button>
+    <button mat-stroked-button (click)="findButtonClick()">Find</button>
   </section>
 
-  <mat-form-field class="email-form-field" appearance="outline">
+  <mat-form-field class="email-form-field" appearance="outline" [hidden]="checked">
     <mat-label>Email</mat-label>
-    <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher"
+    <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher" name="email"
            placeholder="example@example.com">
 
     <!--    <mat-hint></mat-hint>-->
