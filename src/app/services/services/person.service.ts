@@ -12,7 +12,7 @@ export class PersonService {
   constructor(private http: HttpClient) { }
 
   getAll(): Observable<any> {
-    return this.http.get(PERSON_API); //need array!!!
+    return this.http.get(PERSON_API);
   }
 
   getPersonById(id: number): Observable<any> {

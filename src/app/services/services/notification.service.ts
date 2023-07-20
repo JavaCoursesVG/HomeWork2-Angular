@@ -8,7 +8,7 @@ export class NotificationService {
 
   constructor(private _snackBar: MatSnackBar) { }
 
-  public showSnackBar(message: string, action: string): void {
+  public showSnackBar(message: string): void {
     this._snackBar.open(message, "", {
       duration: 2000
     })

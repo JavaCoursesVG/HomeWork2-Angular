@@ -1,20 +1,12 @@
-.find-form {
+.find-form-page {
+  text-align: center;
+  margin: 0 auto;
+  width: 30%;
+}
+
+mat-form-field {
   min-width: 150px;
-  max-width: 500px;
   width: 100%;
-}
-
-.input-form-field {
-  width: 100%;
-}
-
-.email-form-field {
-  /*visibility: hidden;*/
-  width: 100%;
-}
-
-.mat-h1 {
-  text-align: left;
 }
 
 .mat-checkbox-section {
@@ -23,5 +15,6 @@
 
 .find-button {
   text-align: right;
-  margin: 30px auto;
+  margin-right: 0;
+  margin-bottom: 20px;
 }
