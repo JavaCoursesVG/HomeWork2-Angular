@@ -19,6 +19,23 @@ export class PersonService {
     return this.http.get(PERSON_API + id)
   }
 
+  getPersonByName(firstname: string, lastname: string): Observable<any> {
+    return  this.http.get(PERSON_API + "findByName", {
+      params: {
+        firstname: firstname,
+        lastname: lastname
+      }
+    })
+  }
+
+  getPersonByDateOfBirth(dateOfBirth: string): Observable<any> {
+    return this.http.get(PERSON_API + "findByBirthDate", {
+      params: {
+        dateOfBirth: dateOfBirth
+      }
+    })
+  }
+
   updatePerson(person: any): Observable<any> {
     return this.http.post(PERSON_API + 'update', person);
   }

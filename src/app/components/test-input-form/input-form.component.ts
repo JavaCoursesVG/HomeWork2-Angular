@@ -14,11 +14,11 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatIconModule} from "@angular/material/icon";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCheckboxModule} from "@angular/material/checkbox";
-import {PersonService} from "../../services/services/person.service";
 import {Person} from "../../Models/Person";
 import {NotificationService} from "../../services/services/notification.service";
-import {MatTableModule} from "@angular/material/table";
+import {MatTableDataSource, MatTableModule} from "@angular/material/table";
 import {DataTablesModule} from "angular-datatables";
+import {PersonService} from "../../services/services/person.service";
 
 /** Error when invalid control is dirty, touched, or submitted. */
 export class MyErrorStateMatcher implements ErrorStateMatcher {
@@ -36,23 +36,16 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
   imports: [FormsModule, MatFormFieldModule, MatInputModule, ReactiveFormsModule, NgIf, MatIconModule, MatButtonModule, MatCheckboxModule, MatTableModule, DataTablesModule, NgForOf],
 })
 export class InputFormComponent {
-  id = 1;
+  id = null;
   firstname = '';
   lastname = '';
   dateOfBirth = '';
   checked = false;
-  tempValue: any = '';
-
-  person: Person = {} as Person;
-  persons: Person[] = {} as [];
-
-  dtOptions: DataTables.Settings = {};
-
 
 
   constructor(
     private personService: PersonService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
   ) {
   }
 
@@ -60,18 +53,62 @@ export class InputFormComponent {
 
   matcher = new MyErrorStateMatcher();
 
+
   findButtonClick(): void {
     if (!this.checked) {
-      this.personService.getPersonById(this.id).subscribe((response: Person) => {
-        console.log(response)
-        this.person = response
-        this.notificationService.showSnackBar("Data of person received. id: " + this.person.id);
-      });
+      if (this.id) {
+        this.personService.getPersonById(this.id).subscribe((response: Person) => {
+          let person: Person = response;
+          let persons: Person[] = [];
+          persons.push(person);
+          this.dataSource = new MatTableDataSource(persons);
+
+          this.notificationService.showSnackBar("Data of person received. id: " + person.id);
+        });
+      } else if (this.firstname || this.lastname) {
+        this.personService.getPersonByName(this.firstname, this.lastname).subscribe(data => {
+          let persons: Person[][][] = Object.values(data);
+          Object.values(persons[0]).forEach(p => {
+            this.dataSource = new MatTableDataSource(p);
+          })
+
+        });
+
+      } else if (this.dateOfBirth) {
+        this.personService.getPersonByDateOfBirth(this.dateOfBirth).subscribe(data => {
+          let persons: Person[][][] = Object.values(data);
+          Object.values(persons[0]).forEach(p => {
+            this.dataSource = new MatTableDataSource(p);
+          })
+        });
+      }
     } else {
-      this.personService.getAll()
-        .subscribe(data => {
-          console.log(data);
-        })
+      this.getAll();
     }
+  }
+
+
+  displayedColumns: string[] = [
+    'id',
+    'firstname',
+    'lastname',
+    'email',
+    'gender',
+    'dateOfBirth',
+    'phoneNumber',
+  ];
+
+  EmpData: Person[] = [];
+
+  dataSource = new MatTableDataSource(this.EmpData);
+
+  getAll() {
+    this.personService.getAll().subscribe(data => {
+      let persons: Person[][][] = Object.values(data);
+      Object.values(persons[0]).forEach(p => {
+        this.dataSource = new MatTableDataSource(p);
+      })
+    });
+
   }
 }

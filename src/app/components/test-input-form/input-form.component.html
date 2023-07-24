@@ -4,6 +4,11 @@
   <mat-form-field class="input-form-field" appearance="outline" >
     <mat-label>id</mat-label>
     <input matInput type="number" [(ngModel)]="id" name="id" [disabled]="checked">
+
+    <button *ngIf="id" matSuffix mat-icon-button aria-label="Clear" (click)="id=null">
+      <mat-icon>close</mat-icon>
+    </button>
+
   </mat-form-field>
 
   <mat-form-field class="input-form-field" appearance="outline" >
@@ -38,12 +43,12 @@
     <button mat-stroked-button (click)="findButtonClick()">Find</button>
   </section>
 
-  <mat-form-field class="email-form-field" appearance="outline" [hidden]="checked">
+  <mat-form-field class="email-form-field" appearance="outline" [hidden]="true">
     <mat-label>Email</mat-label>
     <input type="email" matInput [formControl]="emailFormControl" [errorStateMatcher]="matcher" name="email"
            placeholder="example@example.com">
 
-    <!--    <mat-hint></mat-hint>-->
+        <mat-hint>Please enter a valid email address</mat-hint>
     <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
       Please enter a valid email address
     </mat-error>
@@ -51,4 +56,19 @@
       Email is <strong>required</strong>
     </mat-error>
   </mat-form-field>
+</form>
+
+<form class="table-form">
+
+  <h2>Persons table</h2>
+
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" id="table">
+    <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
+      <th mat-header-cell *matHeaderCellDef>{{ column }}</th>
+      <td mat-cell *matCellDef="let emp">{{ emp[column] }}</td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let emprow; columns: displayedColumns"></tr>
+  </table>
 </form>

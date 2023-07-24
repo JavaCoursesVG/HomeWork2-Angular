@@ -1,6 +1,9 @@
 import {Component} from '@angular/core';
 import {Person} from "../../Models/Person";
 import {MatTableDataSource} from "@angular/material/table";
+import {HttpClient} from "@angular/common/http";
+import {PersonService} from "../../services/services/person.service";
+
 
 @Component({
   selector: 'app-persons-table',
@@ -8,8 +11,13 @@ import {MatTableDataSource} from "@angular/material/table";
   styleUrls: ['./persons-table.component.css'],
 })
 
+
+
 export class PersonsTableComponent {
 
+  constructor(private http: HttpClient,
+              private personService: PersonService
+              ) { }
 
   displayedColumns: string[] = [
     'id',
@@ -21,30 +29,22 @@ export class PersonsTableComponent {
     'phoneNumber',
   ];
 
-  EmpData2: Person[] = [
-    {
-    id: 1,
-    firstName: 'Anna 1',
-    lastName: "Gosteva 1",
-    gender: "FEMALE",
-    dateOfBirth: "1984-02-11",
-    phoneNumber: "+371 88 888 888",
-    email: "anna.gosteva@gmail.com",
-    }, {
-    id: 2,
-    firstName: "Vadims 1",
-    lastName: "Gostevs 1",
-    gender: "MALE",
-    dateOfBirth: "1983-06-29",
-    phoneNumber: "+371 99 999 999",
-    email: "vadims.gostevs@gmail.com",
-  }];
+  EmpData: Person[] = [];
 
-  dataSource = new MatTableDataSource(this.EmpData2);
+  dataSource = new MatTableDataSource(this.EmpData);
 
-  // constructor() {}
-  //
-  // ngAfterViewInit() {}
-  //
-  // ngOnInit(): void {}
+  ngOnInit(): void {
+    // this.getUserById(1);
+    this.getAll();
+  }
+
+  getAll(){
+    this.personService.getAll().subscribe(data => {
+      let persons: Person[][][] = Object.values(data);
+      Object.values(persons[0]).forEach(p => {
+          this.dataSource= new MatTableDataSource(p);
+      })
+
+    });
+  }
 }
